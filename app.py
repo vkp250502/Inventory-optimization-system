@@ -89,4 +89,3 @@ if st.button("🔄 Sync Google Sheets to MySQL"):
     os.system("python sync_gsheet_mysql.py")
     st.success("✅ Sync completed.")
 
-
