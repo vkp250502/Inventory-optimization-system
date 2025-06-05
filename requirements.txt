@@ -1,0 +1,8 @@
+pandas
+mysql-connector-python
+gspread
+oauth2client
+streamlit
+python-dotenv
+numpy
+matplotlib
