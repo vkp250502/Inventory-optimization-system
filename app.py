@@ -3,6 +3,7 @@ import pandas as pd
 import mysql.connector
 import plotly.express as px
 
+
 # --- DB Connection ---
 def get_connection():
     return mysql.connector.connect(

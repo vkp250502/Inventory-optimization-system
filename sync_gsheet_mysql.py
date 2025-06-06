@@ -3,11 +3,24 @@ import numpy as np
 import mysql.connector
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-
+import streamlit as st
 
 # --- Step 1: Authenticate Google Sheets ---
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("Json_credential.json", scope)
+credentials_dict = {
+    "type": st.secrets["google_sheets"]["type"],
+    "project_id": st.secrets["google_sheets"]["project_id"],
+    "private_key_id": st.secrets["google_sheets"]["private_key_id"],
+    "private_key": st.secrets["google_sheets"]["private_key"],
+    "client_email": st.secrets["google_sheets"]["client_email"],
+    "client_id": st.secrets["google_sheets"]["client_id"],
+    "auth_uri": st.secrets["google_sheets"]["auth_uri"],
+    "token_uri": st.secrets["google_sheets"]["token_uri"],
+    "auth_provider_x509_cert_url": st.secrets["google_sheets"]["auth_provider_x509_cert_url"],
+    "client_x509_cert_url": st.secrets["google_sheets"]["client_x509_cert_url"]
+}
+
+creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_dict, scope)
 client = gspread.authorize(creds)
 spreadsheet_id = "1dSjJlPulzodrDRiRtsCR72wZRDH78dyr7iEMUUldAZQ"
 spreadsheet =client.open_by_key(spreadsheet_id)
