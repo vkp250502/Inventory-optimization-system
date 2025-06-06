@@ -1,5 +1,13 @@
 # Inventory Optimization System
 
+## Project Workflow Diagram
+
+![Workflow Diagram](Workflow.png)
+
+*Automated data flow from Google Sheets to MySQL, processed by Python, and visualized via Streamlit.*
+
+
+
 ## Overview
 The **Inventory Optimization System** is an automated workflow that collects inventory data from Google Sheets, uploads it to a MySQL database, and visualizes the information through an interactive Streamlit dashboard. This system helps businesses optimize stock levels, reduce excess inventory, and make informed decisions based on real-time data.
 
