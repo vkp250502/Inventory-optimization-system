@@ -40,7 +40,7 @@ db = mysql.connector.connect(
     host=st.secrets["database"]["host"],
     user=st.secrets["database"]["user"],
     password=st.secrets["database"]["password"],
-    database=st.secrets["database"]["database"]
+    database=st.secrets["database"]["name"]
 )
 cursor = db.cursor()
 print("connected sucessfully")

@@ -7,10 +7,10 @@ import plotly.express as px
 # --- DB Connection ---
 def get_connection():
     return mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        password="Vishu@004",
-        database="inventory_system"
+        host=st.secrets["database"]["host"],
+        user=st.secrets["database"]["user"],
+        password=st.secrets["database"]["password"],
+        database=st.secrets["database"]["name"]
     )
 
 # --- Fetch Data ---
