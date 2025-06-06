@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 import mysql.connector
 import gspread
+import streamlit as st
 from oauth2client.service_account import ServiceAccountCredentials
 # --- Step 1: Authenticate Google Sheets ---
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("json_credential.json", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
 client = gspread.authorize(creds)
 spreadsheet_id = "1dSjJlPulzodrDRiRtsCR72wZRDH78dyr7iEMUUldAZQ"
 spreadsheet =client.open_by_key(spreadsheet_id)
@@ -36,10 +37,10 @@ sales_df.head(10)
 
 # --- Step 2: Connect to MySQL ---
 db = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="Vishu@004",
-    database="inventory_system"
+    host=st.secrets["database"]["host"],
+    user=st.secrets["database"]["user"],
+    password=st.secrets["database"]["password"],
+    database=st.secrets["database"]["database"]
 )
 cursor = db.cursor()
 print("connected sucessfully")
