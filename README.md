@@ -72,12 +72,3 @@ Maintain critical stock levels of medicines and supplies to comply with regulato
 
 4. Open the URL displayed in your terminal to access the interactive dashboard.
 
-## Folder Structure
-
-/inventory-optimization-system
-│
-├── app.py # Streamlit dashboard application
-├── data_sync.py # Script to sync Google Sheets data with MySQL
-├── config.py # Configuration file for API and database credentials
-├── requirements.txt # List of required Python packages
-└── README.md # Project documentation
