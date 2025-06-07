@@ -89,13 +89,6 @@ with tab5:
     top_chart = px.bar(top_selling, x="product_name", y="quantity_sold", title="Top 10 Selling Products")
     st.plotly_chart(top_chart, use_container_width=True)
 
-if st.button("🔄 Sync Google Sheets to MySQL"):
-    with open("sync_gsheet_mysql.py") as f:
-        code = f.read()
-        exec(code)
-    st.success("✅ Sync completed.")
-
-
 from sync_gsheet_mysql import sync_google_sheet_to_mysql
 
 if st.button("🔄 Sync Google Sheets to Mysql",key = "sync_button"):
