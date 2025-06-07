@@ -33,8 +33,6 @@ products_df = sheet_dataframes["products"]
 inventory_df = sheet_dataframes["inventory"]
 sales_df = sheet_dataframes["sales"]
 purchases_df = sheet_dataframes["purchases"]
-sales_df.head(10)
-
 
 # --- Step 2: Connect to MySQL ---
 with tempfile.NamedTemporaryFile(delete=False, suffix=".pem") as tmp:
