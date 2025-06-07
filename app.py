@@ -10,9 +10,10 @@ def get_connection():
         host=st.secrets["database"]["host"],
         user=st.secrets["database"]["user"],
         password=st.secrets["database"]["password"],
-        database=st.secrets["database"]["name"]
+        database=st.secrets["database"]["name"],
+        port=st.secrets["database"]["port"],
+        ssl_ca= st.secrets["database"]["ssl_ca"]
     )
-
 # --- Fetch Data ---
 def fetch_data(query):
     conn = get_connection()
