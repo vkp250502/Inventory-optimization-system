@@ -61,7 +61,20 @@ with tab3:
 
 with tab4:
     st.subheader("Inventory Table")
-    st.dataframe(inventory)
+    # Merge to get reorder_point from products
+    merged_inv = pd.merge(inventory, products[["product_id", "reorder_point"]], on="product_id", how="left")
+
+    # Define a style function
+    def highlight_low_stock(row):
+        if row["stock_on_hand"] < row["reorder_point"]:
+            return ['background-color: #ffcccc'] * len(row)  # light red
+        else:
+            return [''] * len(row)
+
+    # Apply styling
+    styled_df = merged_inv.style.apply(highlight_low_stock, axis=1)
+
+    st.dataframe(styled_df, use_container_width=True)
 
 with tab5:
     st.subheader("📈 Key Visualizations")
