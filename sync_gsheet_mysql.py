@@ -45,7 +45,7 @@ db = mysql.connector.connect(
     port=int(st.secrets["database"].get("port", 4000)),
     user=st.secrets["database"]["user"],
     password=st.secrets["database"]["password"],
-    database=st.secrets["database"]["name"],
+    database=st.secrets["database"]["database"],
     ssl_ca= ssl_path,
     ssl_verify_cert=True
 )
