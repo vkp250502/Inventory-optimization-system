@@ -132,16 +132,16 @@ def upsert_purchases(df):
             row["quantity_purchased"], row["lead_time_days"]
         )
         cursor.execute(sql, values)
-# --- Apply All Insert/Update ---
-upsert_products(sheet_dataframes["products"])
-upsert_inventory(sheet_dataframes["inventory"])
-upsert_sales(sheet_dataframes["sales"])
-upsert_purchases(sheet_dataframes["purchases"])
 
+# --- Apply All Insert/Update ---
+def sync_google_sheet_to_mysql():
+    upsert_products(sheet_dataframes["products"])
+    upsert_inventory(sheet_dataframes["inventory"])
+    upsert_sales(sheet_dataframes["sales"])
+    upsert_purchases(sheet_dataframes["purchases"])
+    print("✅ All tables synced successfully with MySQL.")
 
 # --- Finalize ---
 db.commit()
 cursor.close()
 db.close()
-
-print("✅ All tables synced successfully with MySQL.")
