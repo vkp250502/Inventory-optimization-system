@@ -91,6 +91,7 @@ with tab5:
 
 from sync_gsheet_mysql import sync_google_sheet_to_mysql
 
-if st.button("🔄 Sync Google Sheets to Mysql",key = "sync_button"):
+if st.button("🔄 Sync Google Sheets to MySQL", key="sync_btn"):
     sync_google_sheet_to_mysql()
-    st.success("✅ Sync completed.")
+    st.success("✅ Data synced successfully.")
+
