@@ -7,7 +7,7 @@ import tempfile
 # --- DB Connection ---
 def get_connection():
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pem") as tmp:
-        tmp.write(st.secrets["ssl_ca"].encode("utf-8"))
+        tmp.write(st.secrets["database"]["ssl_ca"].encode("utf-8"))
         ssl_path = tmp.name
     return mysql.connector.connect(
         host=st.secrets["database"]["host"],
@@ -15,7 +15,8 @@ def get_connection():
         user=st.secrets["database"]["user"],
         password=st.secrets["database"]["password"],
         database=st.secrets["database"]["name"],
-        ssl_ca= ssl_path
+        ssl_ca= ssl_path,
+        ssl_verify_cert=True
     )
 # --- Fetch Data ---
 def fetch_data(query):
