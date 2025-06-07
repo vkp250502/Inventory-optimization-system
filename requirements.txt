@@ -7,6 +7,5 @@ python-dotenv
 numpy
 matplotlib
 plotly
-tempfile
 
 
