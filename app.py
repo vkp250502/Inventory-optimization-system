@@ -60,42 +60,45 @@ with tab3:
     st.dataframe(purchases)
 
 with tab4:
-    st.subheader("Inventory Table (Calculated)")
+    st.subheader("Inventory Table (Updated Live Stock)")
 
     # Calculate total sold per product
     total_sold = sales.groupby("product_id")["quantity_sold"].sum().reset_index()
-    total_sold.columns = ["product_id", "sold_qty"]
+    total_sold.columns = ["product_id", "total_sold"]
 
     # Calculate total purchased per product
     total_purchased = purchases.groupby("product_id")["quantity_purchased"].sum().reset_index()
-    total_purchased.columns = ["product_id", "purchased_qty"]
+    total_purchased.columns = ["product_id", "total_purchased"]
 
-    # Merge with inventory
+    # Merge all data
     inv = pd.merge(inventory, total_sold, on="product_id", how="left")
     inv = pd.merge(inv, total_purchased, on="product_id", how="left")
-
-    inv["sold_qty"] = inv["sold_qty"].fillna(0)
-    inv["purchased_qty"] = inv["purchased_qty"].fillna(0)
-
-    # Recalculate stock
-    inv["calculated_stock"] = inv["purchased_qty"] - inv["sold_qty"]
-
-    # Get reorder point from products
     inv = pd.merge(inv, products[["product_id", "product_name", "reorder_point"]], on="product_id", how="left")
 
-    # Add status column
+    # Fill NaNs
+    inv["total_sold"] = inv["total_sold"].fillna(0)
+    inv["total_purchased"] = inv["total_purchased"].fillna(0)
+
+    # Calculate updated stock
+    inv["updated_stock"] = inv["stock_on_hand"] + inv["total_purchased"] - inv["total_sold"]
+
+    # Mark low stock
     inv["status"] = inv.apply(
-        lambda row: "⚠️ Low Stock" if row["calculated_stock"] < row["reorder_point"] else "✅ OK", axis=1
+        lambda row: "🔴 Low Stock" if row["updated_stock"] < row["reorder_point"] else "🟢 Sufficient", axis=1
     )
 
-    # Highlight low stock
-    def highlight(row):
-        if row["status"] == "⚠️ Low Stock":
-            return ['background-color: #ffdddd'] * len(row)
+    # Highlight function
+    def highlight_stock(row):
+        if row["updated_stock"] < row["reorder_point"]:
+            return ['background-color: #ffd6d6'] * len(row)
         return [''] * len(row)
 
-    st.dataframe(inv.style.apply(highlight, axis=1), use_container_width=True)
-
+    # Show
+    st.dataframe(
+        inv[["product_id", "product_name", "stock_on_hand", "total_purchased", "total_sold", "updated_stock", "reorder_point", "status"]]
+        .style.apply(highlight_stock, axis=1),
+        use_container_width=True
+    )
 
 with tab5:
     st.subheader("📈 Key Visualizations")
