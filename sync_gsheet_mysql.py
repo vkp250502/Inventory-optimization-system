@@ -38,10 +38,10 @@ sales_df.head(10)
 # --- Step 2: Connect to MySQL ---
 db = mysql.connector.connect(
     host=st.secrets["database"]["host"],
+    port=st.secrets["database"].get("port", 4000),
     user=st.secrets["database"]["user"],
     password=st.secrets["database"]["password"],
     database=st.secrets["database"]["name"],
-    port=st.secrets["database"]["port"],
     ssl_ca= st.secrets["database"]["ssl_ca"]
 )
 cursor = db.cursor()
