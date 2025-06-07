@@ -92,6 +92,6 @@ with tab5:
 import os
 
 if st.button("🔄 Sync Google Sheets to MySQL"):
-    os.system("python sync_gsheet_mysql.py")
+    os.system("sync_gsheet_mysql.py")
     st.success("✅ Sync completed.")
 
