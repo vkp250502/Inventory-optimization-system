@@ -27,7 +27,7 @@ def fetch_data(query):
 
 # --- Streamlit Layout ---
 st.set_page_config(page_title="Inventory Dashboard", layout="wide")
-st.title("📊 Inventory Management Dashboard")
+st.title("📊 Inventory Optimization system")
 
 # --- Load Data ---
 products = fetch_data("SELECT * FROM products")
@@ -95,3 +95,7 @@ if st.button("🔄 Sync Google Sheets to MySQL", key="sync_btn"):
     sync_google_sheet_to_mysql()
     st.success("✅ Data synced successfully.")
 
+google_sheet_url = "https://docs.google.com/spreadsheets/d/1dSjJlPulzodrDRiRtsCR72wZRDH78dyr7iEMUUldAZQ/edit"
+
+# This creates a simple button-like link
+st.link_button("✏️ Open Google Sheet to Enter Data", google_sheet_url)
