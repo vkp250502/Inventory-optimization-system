@@ -98,6 +98,6 @@ if st.button("🔄 Sync Google Sheets to MySQL"):
 
 from sync_gsheet_mysql import sync_google_sheet_to_mysql
 
-if st.button("🔄 Sync Google Sheets to MySQL"):
+if st.button("🔄 Sync Google Sheets to Mysql",key = "sync_button"):
     sync_google_sheet_to_mysql()
     st.success("✅ Sync completed.")
