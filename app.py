@@ -60,21 +60,42 @@ with tab3:
     st.dataframe(purchases)
 
 with tab4:
-    st.subheader("Inventory Table")
-    # Merge to get reorder_point from products
-    merged_inv = pd.merge(inventory, products[["product_id", "reorder_point"]], on="product_id", how="left")
+    st.subheader("Inventory Table (Calculated)")
 
-    # Define a style function
-    def highlight_low_stock(row):
-        if row["stock_on_hand"] < row["reorder_point"]:
-            return ['background-color: #ffcccc'] * len(row)  # light red
-        else:
-            return [''] * len(row)
+    # Calculate total sold per product
+    total_sold = sales.groupby("product_id")["quantity_sold"].sum().reset_index()
+    total_sold.columns = ["product_id", "sold_qty"]
 
-    # Apply styling
-    styled_df = merged_inv.style.apply(highlight_low_stock, axis=1)
+    # Calculate total purchased per product
+    total_purchased = purchases.groupby("product_id")["quantity_purchased"].sum().reset_index()
+    total_purchased.columns = ["product_id", "purchased_qty"]
 
-    st.dataframe(styled_df, use_container_width=True)
+    # Merge with inventory
+    inv = pd.merge(inventory, total_sold, on="product_id", how="left")
+    inv = pd.merge(inv, total_purchased, on="product_id", how="left")
+
+    inv["sold_qty"] = inv["sold_qty"].fillna(0)
+    inv["purchased_qty"] = inv["purchased_qty"].fillna(0)
+
+    # Recalculate stock
+    inv["calculated_stock"] = inv["purchased_qty"] - inv["sold_qty"]
+
+    # Get reorder point from products
+    inv = pd.merge(inv, products[["product_id", "product_name", "reorder_point"]], on="product_id", how="left")
+
+    # Add status column
+    inv["status"] = inv.apply(
+        lambda row: "⚠️ Low Stock" if row["calculated_stock"] < row["reorder_point"] else "✅ OK", axis=1
+    )
+
+    # Highlight low stock
+    def highlight(row):
+        if row["status"] == "⚠️ Low Stock":
+            return ['background-color: #ffdddd'] * len(row)
+        return [''] * len(row)
+
+    st.dataframe(inv.style.apply(highlight, axis=1), use_container_width=True)
+
 
 with tab5:
     st.subheader("📈 Key Visualizations")
