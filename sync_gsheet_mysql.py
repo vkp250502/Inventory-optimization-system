@@ -36,13 +36,16 @@ sales_df.head(10)
 
 
 # --- Step 2: Connect to MySQL ---
+with tempfile.NamedTemporaryFile(delete=False, suffix=".pem") as tmp:
+    tmp.write(st.secrets["ssl_ca"].encode("utf-8"))
+    ssl_path = tmp.name
 db = mysql.connector.connect(
     host=st.secrets["database"]["host"],
-    port=st.secrets["database"].get("port", 4000),
+    port=int(st.secrets["database"].get("port", 4000)),
     user=st.secrets["database"]["user"],
     password=st.secrets["database"]["password"],
     database=st.secrets["database"]["name"],
-    ssl_ca= st.secrets["database"]["ssl_ca"]
+    ssl_ca= ssl_path
 )
 cursor = db.cursor()
 print("connected sucessfully")

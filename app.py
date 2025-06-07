@@ -6,13 +6,17 @@ import plotly.express as px
 
 # --- DB Connection ---
 def get_connection():
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pem") as tmp:
+    tmp.write(st.secrets["ssl_ca"].encode("utf-8"))
+    ssl_path = tmp.name
     return mysql.connector.connect(
         host=st.secrets["database"]["host"],
+        port=int(st.secrets["database"].get("port", 4000)),
         user=st.secrets["database"]["user"],
         password=st.secrets["database"]["password"],
         database=st.secrets["database"]["name"],
-        port=st.secrets["database"]["port"],
-        ssl_ca= st.secrets["database"]["ssl_ca"]
+        
+        ssl_ca= st.secrets["database"]["ssl_path"]
     )
 # --- Fetch Data ---
 def fetch_data(query):
