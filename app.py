@@ -47,6 +47,9 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 with tab1:
     st.subheader("Products Table")
     st.dataframe(products)
+    google_sheet_url = "https://docs.google.com/spreadsheets/d/1dSjJlPulzodrDRiRtsCR72wZRDH78dyr7iEMUUldAZQ/edit?gid=0#gid=0"
+    st.link_button("✏️ Open Google Sheet to Enter Data", google_sheet_url)
+
 
 with tab2:
     st.subheader("Sales Table")
@@ -62,6 +65,7 @@ with tab4:
 
 with tab5:
     st.subheader("📈 Key Visualizations")
+
 
     col1, col2 = st.columns(2)
 
@@ -95,7 +99,3 @@ if st.button("🔄 Sync Google Sheets to MySQL", key="sync_btn"):
     sync_google_sheet_to_mysql()
     st.success("✅ Data synced successfully.")
 
-google_sheet_url = "https://docs.google.com/spreadsheets/d/1dSjJlPulzodrDRiRtsCR72wZRDH78dyr7iEMUUldAZQ/edit"
-
-# This creates a simple button-like link
-st.link_button("✏️ Open Google Sheet to Enter Data", google_sheet_url)
