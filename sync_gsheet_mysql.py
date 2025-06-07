@@ -3,6 +3,7 @@ import numpy as np
 import mysql.connector
 import gspread
 import streamlit as st
+import tempfile
 from oauth2client.service_account import ServiceAccountCredentials
 # --- Step 1: Authenticate Google Sheets ---
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
